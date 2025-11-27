@@ -4,10 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bee Expert Pro (BEP) - 養蜂專家系統</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.1">
 </head>
-<body>
-    <header>
+<body style="visibility: hidden;"> 
+    
+    <div id="splash-screen">
+        <div class="welcome-message">
+            <h1>🐝 歡迎來到 Bee Expert Pro</h1>
+            <p>宇宙級全能系統啟動中...</p>
+        </div>
+    </div>
+    
+    <header id="main-header" style="display: none;">
         <h1>🐝 Bee Expert Pro (BEP) - 宇宙級系統</h1>
         <div id="auth-status">
             <span id="user-info">請登入</span>
@@ -15,7 +23,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content" style="display: none;">
         <section id="login-section">
             <h2>會員登入 / 註冊</h2>
             <p>（會員系統由 Supabase 免費提供）</p>
@@ -45,6 +53,6 @@
     </main>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="app.js"></script>
+    <script src="app.js?v=1.1"></script>
 </body>
 </html>
