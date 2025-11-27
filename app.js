@@ -3,8 +3,8 @@
 // 請將這兩行替換為您 Supabase 專案的真實 URL 和 Key
 // ====================================================================
 
-const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE'; // 範例: https://xxxx.supabase.co
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE'; // 範例: eyJhbGciOiJIUzI1NiI...
+const SUPABASE_URL = 'https://wskhicsuvdpfaqjzdprt.supabase.co'; // 範例: https://xxxx.supabase.co
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indza2hpY3N1dmRwZmFxanpkcHJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQyNTM3NzQsImV4cCI6MjA3OTgyOTc3NH0.BTAgZzJ3e9w6LI1Lk2aEWdicZWIIwoLHil7NWWslRgU'; // 範例: eyJhbGciOiJIUzI1NiI...
 
 // --------------------------------------------------------------------
 
