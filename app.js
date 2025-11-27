@@ -8,9 +8,10 @@ const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE'; // 範例: eyJhbGciOiJI
 
 // --------------------------------------------------------------------
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// 修正：使用全局的 createClient 函數，並將實例命名為 sb (Supabase Client)
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// DOM 元素快取
+// DOM 元素快取 (其餘不變)
 const splashScreen = document.getElementById('splash-screen');
 const mainHeader = document.getElementById('main-header');
 const mainContent = document.getElementById('main-content');
@@ -52,7 +53,8 @@ async function handleLogin(event) {
 
     loginMessage.textContent = '發送中...';
 
-    const { error } = await supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin } });
+    // 使用修正後的 sb 實例連線
+    const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: window.location.origin } });
 
     if (error) {
         loginMessage.textContent = `錯誤：${error.message}`;
@@ -63,7 +65,8 @@ async function handleLogin(event) {
 }
 
 async function handleLogout() {
-    const { error } = await supabase.auth.signOut();
+    // 使用修正後的 sb 實例連線
+    const { error } = await sb.auth.signOut();
     if (error) console.error('登出失敗:', error);
 }
 
@@ -72,14 +75,12 @@ function updateUI(session) {
     const user = session?.user;
 
     if (user) {
-        // 會員已登入：顯示日誌區塊
         loginSection.style.display = 'none';
         logSection.style.display = 'block'; 
         userInfo.textContent = `嗨，${user.email.split('@')[0]} (BEP 會員)`;
         logoutBtn.style.display = 'inline-block';
         fetchHiveData(user.id); 
     } else {
-        // 會員未登入：只顯示計算機
         loginSection.style.display = 'block';
         logSection.style.display = 'none'; 
         userInfo.textContent = '請登入';
@@ -90,22 +91,41 @@ function updateUI(session) {
 // 模擬抓取蜂箱資料
 async function fetchHiveData(userId) {
     const hiveLogsDiv = document.getElementById('hive-logs');
-    // ... 數據抓取邏輯 (省略細節，程式碼在上方已提供) ...
+    hiveLogsDiv.innerHTML = '<p>正在從 Supabase 抓取您的數據...</p>';
+    
+    // 使用修正後的 sb 實例連線
+    const { data: hives, error } = await sb
+        .from('hives')
+        .select('name, status, last_inspection_date')
+        .limit(5);
+
+    if (error) {
+        hiveLogsDiv.innerHTML = `<p style="color:red;">數據抓取失敗：${error.message} (請檢查 Supabase RLS)</p>`;
+        return;
+    }
+
+    if (hives.length === 0) {
+        hiveLogsDiv.innerHTML = '<p>您尚未建立任何蜂箱數據。請開始新增！</p>';
+    } else {
+        let html = '<ul>';
+        hives.forEach(hive => {
+            html += `<li><strong>${hive.name}</strong> - 狀態: ${hive.status} - 檢查日: ${hive.last_inspection_date || 'N/A'}</li>`;
+        });
+        html += '</ul>';
+        hiveLogsDiv.innerHTML = html;
+    }
 }
 
-// --- 啟動與監聽 (修正邏輯) ---
+// --- 啟動與監聽 ---
 document.addEventListener('DOMContentLoaded', () => {
     
     // 步驟 1: 延遲 2 秒，然後顯示主頁面
     setTimeout(() => {
-        // 隱藏 Splash Screen
         splashScreen.style.opacity = '0';
         
-        // 顯示主頁面內容
         mainHeader.style.display = 'flex'; 
         mainContent.style.display = 'block'; 
 
-        // 延遲淡出後徹底移除 Splash Screen
         setTimeout(() => {
             splashScreen.style.display = 'none';
         }, 500); 
@@ -115,12 +135,13 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn.addEventListener('click', handleLogout);
         calculateSyrup(); 
         
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        // 使用修正後的 sb 實例連線
+        sb.auth.getSession().then(({ data: { session } }) => {
             updateUI(session);
         });
-        supabase.auth.onAuthStateChange((event, session) => {
+        sb.auth.onAuthStateChange((event, session) => {
             updateUI(session);
         });
 
-    }, 2000); // 2 秒停頓
+    }, 2000); 
 });
