@@ -1,27 +1,37 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bee Expert Pro</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-    <script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bee Expert Pro｜宇宙級養蜂專家系統</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="icon" href="https://raw.githubusercontent.com/beedatabase/bee-expert-pro/main/bee.ico" type="image/x-icon">
+  <script src="script.js" defer></script>
 </head>
 <body>
+  <div class="container">
+    <!-- 側邊欄 -->
     <aside class="sidebar">
-        <h2>Bee Expert Pro</h2>
-        <nav>
-            <button onclick="showPage('dashboard')">首頁</button>
-            <button onclick="showPage('map')">蜂場地圖</button>
-            <button onclick="showPage('calculator')">萬能計算</button>
-            <button onclick="showPage('compliance')">合規防禦</button>
-            <button onclick="showPage('knowledge')">百科全書</button>
-            <button onclick="showPage('business')">商業 ERP</button>
-            <button onclick="showPage('safety')">安全科技</button>
-            <button onclick="showPage('settings')">系統設定</button>
-        </nav>
+      <div class="logo">Bee Expert Pro</div>
+      <nav>
+        <button data-page="dashboard" class="active"><span>儀表板</span></button>
+        <button data-page="map"><span>蜂場地圖</span></button>
+        <button data-page="calculator"><span>萬能計算</span></button>
+        <button data-page="compliance"><span>合規防禦</span></button>
+        <button data-page="knowledge"><span>百科全書</span></button>
+        <button data-page="business"><span>商業ERP</span></button>
+        <button data-page="safety"><span>安全科技</span></button>
+        <button data-page="settings"><span>系統設定</span></button>
+      </nav>
+      <div class="mode-switch">
+        <button id="elderMode">老人模式</button>
+        <button id="nightMode">夜間紅光</button>
+      </div>
     </aside>
+
+    <!-- 主內容區 -->
     <main id="content"></main>
+  </div>
 </body>
 </html>
